@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace UPS.App
 {
-    public enum FormActionType
+    public enum FormType
     {
-        Add,
-        Edit,
-        Search
+        Employees,
+        Post
     }
 }

@@ -35,12 +35,12 @@ namespace UPS.Core.Models
         [JsonPropertyName("created_at")]
         [DisplayName("Create Time")]
         [Export]
-        public DateTime? CreateTime { get; set; }
+        public DateTimeOffset? CreateTime { get; set; }
 
         [JsonPropertyName("updated_at")]
         [DisplayName("Update Time")]
         [Export]
-        public DateTime? UpdateTime { get; set; }
+        public DateTimeOffset? UpdateTime { get; set; }
 
 
         public int CompareTo(object obj)

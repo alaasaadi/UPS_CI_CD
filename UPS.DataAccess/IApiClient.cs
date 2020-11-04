@@ -6,6 +6,6 @@ namespace UPS.DataAccess
 {
     public interface IApiClient
     {
-        Task<IResponse> Request(HttpMethod methodType, string subAddress, string jsonData = null);
+        Task<IResponse> RequestAsync(HttpMethod methodType, string subAddress, string jsonData = null);
     }
 }

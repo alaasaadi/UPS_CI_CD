@@ -1,6 +1,6 @@
 ﻿namespace UPS.App
 {
-    partial class FrmEmployees
+    partial class FrmList<M, F>
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gvList = new System.Windows.Forms.DataGridView();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnFirst = new System.Windows.Forms.ToolStripButton();
@@ -66,10 +66,10 @@
             this.gvList.AllowUserToDeleteRows = false;
             this.gvList.AllowUserToOrderColumns = true;
             this.gvList.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            this.gvList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.gvList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            this.gvList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.gvList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gvList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gvList.CausesValidation = false;
@@ -310,7 +310,7 @@
             this.lblFilterText.Size = new System.Drawing.Size(42, 17);
             this.lblFilterText.Text = " | Filter";
             // 
-            // FrmEmployees
+            // FrmList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -319,11 +319,10 @@
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.gvList);
             this.MaximizeBox = false;
-            this.Name = "FrmEmployees";
+            this.Name = "FrmList";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Employees";
-            this.Load += new System.EventHandler(this.FrmEmployees_Load);
+            this.Load += new System.EventHandler(this.FrmList_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gvList)).EndInit();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();

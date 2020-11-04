@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using UPS.Core.Events;
+using UPS.Core.Models;
 using UPS.Core.Utilities.Export;
 using UPS.Core.Utilities.Pagination;
 
 namespace UPS.Core.Handlers
 {
-    public interface IHandler<T>
+    public interface IHandler<T> where T :IModel
     {
         Task<IEnumerable<T>> ReadPageAsync(int? PageNo);
         Task<T> ReadAsync(T Entity);

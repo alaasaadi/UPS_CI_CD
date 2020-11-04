@@ -50,25 +50,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
-    <Compile Include="FrmEmployee.cs">
+    <Compile Include="Factory.cs" />
+    <Compile Include="Forms\FrmEmployee.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmEmployee.Designer.cs">
+    <Compile Include="Forms\FrmEmployee.Designer.cs">
       <DependentUpon>FrmEmployee.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmEmployees.cs">
+    <Compile Include="Forms\IFormDetails.cs" />
+    <Compile Include="Forms\FrmList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmEmployees.Designer.cs">
-      <DependentUpon>FrmEmployees.cs</DependentUpon>
+    <Compile Include="Forms\FrmList.Designer.cs">
+      <DependentUpon>FrmList.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FrmEmployee.resx">
+    <EmbeddedResource Include="Forms\FrmEmployee.resx">
       <DependentUpon>FrmEmployee.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmEmployees.resx">
-      <DependentUpon>FrmEmployees.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

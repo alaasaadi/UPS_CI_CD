@@ -16,20 +16,17 @@ namespace UPS.DataAccess
 
         static HttpClient client = null;
         static GorestClient instance = null;
-        static readonly object padlock = new object();
 
         public static GorestClient Instance
         {
             get
             {
-                lock (padlock)
+
+                if (instance == null)
                 {
-                    if (instance == null)
-                    {
-                        instance = new GorestClient();
-                    }
-                    return instance;
+                    instance = new GorestClient();
                 }
+                return instance;
             }
         }
         private GorestClient()
@@ -44,7 +41,7 @@ namespace UPS.DataAccess
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<IResponse> Request(HttpMethod methodType, string subAddress, string jsonData = null)
+        public async Task<IResponse> RequestAsync(HttpMethod methodType, string subAddress, string jsonData = null)
         {
             HttpRequestMessage request = new HttpRequestMessage
             {

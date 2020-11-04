@@ -1,4 +1,7 @@
-﻿namespace UPS.App
+﻿using UPS.Core.Models;
+using UPS.App;
+
+namespace UPS.App
 {
     partial class FrmEmployee
     {
@@ -48,7 +51,6 @@
             // 
             this.txtId.Location = new System.Drawing.Point(61, 19);
             this.txtId.Name = "txtId";
-            this.txtId.ReadOnly = true;
             this.txtId.Size = new System.Drawing.Size(128, 20);
             this.txtId.TabIndex = 0;
             // 

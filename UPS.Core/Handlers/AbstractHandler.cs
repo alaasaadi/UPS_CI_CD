@@ -52,7 +52,7 @@ namespace UPS.Core.Handlers
             {
                 if (Entity == null) throw new ArgumentNullException();
                 ProccessingDataStarted?.Invoke(this, new HandlerEventArgs(HandlerActionType.Read));
-                IResponse response = await manager.Request(HttpMethod.Get, GetApiSubAddress(Entity, HandlerActionType.Read));
+                IResponse response = await manager.RequestAsync(HttpMethod.Get, GetApiSubAddress(Entity, HandlerActionType.Read));
                 T result = JsonSerializer.Deserialize<T>(response.Data.ToString(), SerializerOptions);
                 ProccessingDataSuccess?.Invoke(this, new HandlerEventArgs(HandlerActionType.Read));
                 return result;
@@ -72,7 +72,7 @@ namespace UPS.Core.Handlers
             try
             {
                 if (!MuteReadPageEvents) ProccessingDataStarted?.Invoke(this, new HandlerEventArgs(HandlerActionType.ReadPage));
-                IResponse response = await manager.Request(HttpMethod.Get, $"{GetApiSubAddress(new T(), HandlerActionType.ReadPage)}?page={PageNo}&{Filter}");
+                IResponse response = await manager.RequestAsync(HttpMethod.Get, $"{GetApiSubAddress(new T(), HandlerActionType.ReadPage)}?page={PageNo}&{Filter}");
                 Pager = JsonSerializer.Deserialize<PagerWrapper>(response.Meta.ToString(), SerializerOptions).Pager;
                 IEnumerable<T> result = JsonSerializer.Deserialize<IEnumerable<T>>(response.Data.ToString(), SerializerOptions);
                 if (!MuteReadPageEvents) ProccessingDataSuccess?.Invoke(this, new HandlerEventArgs(HandlerActionType.ReadPage));
@@ -95,7 +95,7 @@ namespace UPS.Core.Handlers
                 if (Entity == null) throw new ArgumentNullException();
                 ProccessingDataStarted?.Invoke(this, new HandlerEventArgs(HandlerActionType.Create));
                 string EntityAsJson = JsonSerializer.Serialize<T>(Entity, SerializerOptions);
-                IResponse response = await manager.Request(HttpMethod.Post, $"{GetApiSubAddress(Entity, HandlerActionType.Create)}", EntityAsJson);
+                IResponse response = await manager.RequestAsync(HttpMethod.Post, $"{GetApiSubAddress(Entity, HandlerActionType.Create)}", EntityAsJson);
                 T result =  JsonSerializer.Deserialize<T>(response.Data.ToString(), SerializerOptions); 
                 ProccessingDataSuccess?.Invoke(this, new HandlerEventArgs(HandlerActionType.Create));
                 return result;
@@ -121,7 +121,7 @@ namespace UPS.Core.Handlers
                 if (dbEntity.CompareTo(OrginalEntity) <= 0)
                 {
                     string EntityAsJson = JsonSerializer.Serialize<T>(ModifiedEntity, SerializerOptions);
-                    IResponse response = await manager.Request(HttpMethod.Put, $"{GetApiSubAddress(ModifiedEntity, HandlerActionType.Update)}", EntityAsJson);
+                    IResponse response = await manager.RequestAsync(HttpMethod.Put, $"{GetApiSubAddress(ModifiedEntity, HandlerActionType.Update)}", EntityAsJson);
                     ProccessingDataSuccess?.Invoke(this, new HandlerEventArgs(HandlerActionType.Update));
                     return (response.Status == ResponseCode.OK);
                 }
@@ -146,7 +146,7 @@ namespace UPS.Core.Handlers
             {
                 if (Entity == null) throw new ArgumentNullException();
                 ProccessingDataStarted?.Invoke(this, new HandlerEventArgs(HandlerActionType.Delete));
-                IResponse response = await manager.Request(HttpMethod.Delete, $"{GetApiSubAddress(Entity, HandlerActionType.Update)}");
+                IResponse response = await manager.RequestAsync(HttpMethod.Delete, $"{GetApiSubAddress(Entity, HandlerActionType.Update)}");
                 ProccessingDataSuccess?.Invoke(this, new HandlerEventArgs(HandlerActionType.Delete));
                 return (response.Status == ResponseCode.SuccessWithNoBody);
             }
