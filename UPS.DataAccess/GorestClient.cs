@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using UPS.DataAccess.Models;
 
@@ -41,17 +42,17 @@ namespace UPS.DataAccess
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<IResponse> RequestAsync(HttpMethod methodType, string subAddress, string jsonData = null)
+        public async Task<IResponse> RequestAsync(HttpMethod methodType, string subAddress, string jsonData = null, CancellationToken CancelToken = default)
         {
             HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = methodType,
-                RequestUri = new Uri($"{client.BaseAddress}/{subAddress}")
+                RequestUri = new Uri($"{client.BaseAddress}/{subAddress}"),
             };
 
             if (!string.IsNullOrWhiteSpace(jsonData)) request.Content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            using (var result = await client.SendAsync(request))
+            using (var result = await client.SendAsync(request, CancelToken))
             {
                 if (result.IsSuccessStatusCode)
                 {

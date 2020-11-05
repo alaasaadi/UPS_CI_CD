@@ -79,6 +79,7 @@
     <Compile Include="Handlers\IHandler.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Utilities\Export\CsvExporter.cs" />
+    <Compile Include="Utilities\Export\ExcelExporter.cs" />
     <Compile Include="Utilities\Export\IExporter.cs" />
     <Compile Include="Utilities\Pagination\IPager.cs" />
     <Compile Include="Models\Employee.cs" />

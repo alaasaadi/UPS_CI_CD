@@ -12,10 +12,11 @@ using UPS.Core.Utilities.Export;
 
 namespace UPS.App
 {
-    public partial class FrmList<M, F> : Form where M : IModel 
+    public partial class FrmList<M, F> : Form where M : IModel
                                               where F : Form, IFormDetails<M>, new()
     {
         readonly IHandler<M> _handler;
+
         public FrmList(IHandler<M> handler, string title)
         {
             InitializeComponent();
@@ -26,16 +27,16 @@ namespace UPS.App
             _handler.ProccessingDataError += OnProccessingDataError;
             _handler.ProccessingDataEnded += OnProccessingDataEnded;
         }
-
         private async void FrmList_Load(object sender, EventArgs e)
         {
-            await RefreshData();
+            await Refresh();
         }
 
 
         #region Handler Events
         private void OnProccessingDataStarted(object sender, HandlerEventArgs e)
         {
+            btnCancel.Enabled = true;
             toolStrip.Enabled = false;
             lblStatus.ForeColor = Color.Black;
             lblStatus.Text = $"Please wait while proccessing {e.ActionType} ...";
@@ -48,10 +49,11 @@ namespace UPS.App
         private void OnProccessingDataError(object sender, HandlerEventArgs e)
         {
             lblStatus.ForeColor = Color.Red;
-            lblStatus.Text = $"Error proccessing {e.ActionType} !"; ;
+            lblStatus.Text = $"Error proccessing {e.ActionType}! {e.Info}";
         }
         private void OnProccessingDataEnded(object sender, HandlerEventArgs e)
         {
+            btnCancel.Enabled = false;
             toolStrip.Enabled = true;
             txtCurrentPage.Text = _handler.Pager.CurrentPage.ToString();
             lblTotalPages.Text = _handler.Pager.TotalPages.ToString();
@@ -136,7 +138,7 @@ namespace UPS.App
                 return default;
             }
         }
-        async Task RefreshData(int? PageNumber = 1)
+        async Task Refresh(int? PageNumber = 1)
         {
             try
             {
@@ -156,7 +158,7 @@ namespace UPS.App
         #region Actions
         private async void BtnRefresh_Click(object sender, EventArgs e)
         {
-            await RefreshData(_handler.Pager.CurrentPage);
+            await Refresh(_handler.Pager.CurrentPage);
         }
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
@@ -169,60 +171,59 @@ namespace UPS.App
 
                 if (frm.DialogResult == DialogResult.OK)
                 {
-                    await RefreshData(_handler.Pager.TotalPages);
+                    await Refresh(_handler.Pager.TotalPages);
                     gvList.Rows[gvList.Rows.Count - 1].Selected = true;
                 }
             }
         }
-        private async void BtnDelete_Click(object sender, EventArgs e)
+
+        private async void BtnEdit_Click(object sender, EventArgs e)
         {
-            M emp = GetSelectedModel();
-            if (emp != null)
+
+            M model = GetSelectedModel();
+            if (model != null)
             {
-                var dialogResult = MessageBox.Show($"Are you sure to delete", "Data loss warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
-                if (dialogResult == DialogResult.Yes)
+                using (var frm = new F())
                 {
-                    await DoDeleteAsync(emp);
-                    await RefreshData(_handler.Pager.CurrentPage);
+                    frm.MyModel = model;
+                    do
+                    {
+                        frm.ShowDialog();
+                    } while (frm.DialogResult == DialogResult.OK && !await DoUpdateAsync(frm.MyModel, model));
+
+                    if (frm.DialogResult == DialogResult.OK) await Refresh(_handler.Pager.CurrentPage);
                 }
             }
             else
             {
-                MessageBox.Show("Select employee to delete", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Select entry to modify", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-        private async void BtnEdit_Click(object sender, EventArgs e)
+        private async void BtnDelete_Click(object sender, EventArgs e)
         {
-
-            M emp = GetSelectedModel();
-            if (emp != null)
+            M model = GetSelectedModel();
+            if (model != null)
             {
-                var frm = new F()
+                var dialogResult = MessageBox.Show($"Are you sure to delete!", "Data loss warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                if (dialogResult == DialogResult.Yes)
                 {
-                    MyModel = emp
-                };
-                do
-                {
-                    frm.ShowDialog();
-                } while (frm.DialogResult == DialogResult.OK && !await DoUpdateAsync(frm.MyModel, emp));
-
-                if (frm.DialogResult == DialogResult.OK) await RefreshData(_handler.Pager.CurrentPage);
-                frm.Dispose();
+                    await DoDeleteAsync(model);
+                    await Refresh(_handler.Pager.CurrentPage);
+                }
             }
             else
             {
-                MessageBox.Show("Select employee to modify", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Select entry to delete", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
         private async void BtnSearch_Click(object sender, EventArgs e)
         {
-
             using (var frm = new F())
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     _handler.SetFilter(frm.MyModel);
-                    await RefreshData();
+                    await Refresh();
                 }
             }
         }
@@ -231,28 +232,29 @@ namespace UPS.App
             if (!string.IsNullOrWhiteSpace(_handler.Filter))
             {
                 _handler.ClearFilter();
-                await RefreshData();
+                await Refresh();
             }
         }
-        private async void BtnExport_Click(object sender, EventArgs e)
+        private async void csvExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
                 saveFileDialog.Filter = "comma-separated values|*.csv";
-                saveFileDialog.Title = "Save CSV File";
+                saveFileDialog.Title = "Export";
                 saveFileDialog.FileName = $"{this.Text}_{DateTime.Now:ddMMyyy_HHmmss}.csv";
-                saveFileDialog.ShowDialog();
-
-                if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (var stream = await _handler.ExportAsync(new CsvExporter()))
+                    if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
                     {
-                        using (var fileStream = new FileStream($@"{saveFileDialog.FileName}", FileMode.Create, FileAccess.Write))
+                        using (var stream = await _handler.ExportAsync(new CsvExporter()))
                         {
-                            await stream.CopyToAsync(fileStream);
-                            var msg = MessageBox.Show("Export file has been successfuly completed, do yo want to open the file?", "Export Complteted", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                            if (msg == DialogResult.Yes)
-                                Process.Start(saveFileDialog.FileName);
+                            using (var fileStream = new FileStream($@"{saveFileDialog.FileName}", FileMode.Create, FileAccess.Write))
+                            {
+                                await stream.CopyToAsync(fileStream);
+                                var msg = MessageBox.Show("Export has been successfuly completed, do yo want to open the file?", "Export Complteted", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                if (msg == DialogResult.Yes)
+                                    Process.Start(saveFileDialog.FileName);
+                            }
                         }
                     }
                 }
@@ -261,7 +263,10 @@ namespace UPS.App
             {
                 MessageBox.Show("Export error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+        }
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            _handler.Cancel();
         }
         #endregion
 
@@ -269,22 +274,22 @@ namespace UPS.App
         private async void BtnFirst_Click(object sender, EventArgs e)
         {
             if (_handler.Pager.CurrentPage > 1)
-                await RefreshData();
+                await Refresh(1);
         }
         private async void BtnLast_Click(object sender, EventArgs e)
         {
             if (_handler.Pager.CurrentPage != _handler.Pager.TotalPages)
-                await RefreshData(_handler.Pager.TotalPages);
+                await Refresh(_handler.Pager.TotalPages);
         }
         private async void BtnPrevious_Click(object sender, EventArgs e)
         {
             if (_handler.Pager.CurrentPage > 1)
-                await RefreshData(_handler.Pager.CurrentPage - 1);
+                await Refresh(_handler.Pager.CurrentPage - 1);
         }
         private async void BtnNext_Click(object sender, EventArgs e)
         {
             if (_handler.Pager.CurrentPage < _handler.Pager.TotalPages)
-                await RefreshData(_handler.Pager.CurrentPage + 1);
+                await Refresh(_handler.Pager.CurrentPage + 1);
         }
         private async void TxtCurrentPage_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -292,9 +297,9 @@ namespace UPS.App
             {
                 int.TryParse(txtCurrentPage.Text, out int page);
                 if (page > 0 && _handler.Pager.TotalPages >= page)
-                    await RefreshData(page);
+                    await Refresh(page);
             }
         }
-        #endregion 
+        #endregion
     }
 }

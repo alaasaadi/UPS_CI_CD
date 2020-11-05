@@ -8,7 +8,7 @@ namespace UPS.Core.Models
     public class Employee : IModel
     {
         [JsonPropertyName("id")]
-        [SearchableField(FieldName:"id", ExcludeDefaultValue: true, ExcludedValues: new object[] {0})]
+        [SearchableField(FieldName: "id", ExcludeDefaultValue: true, ExcludedValues: new object[] { 0 })]
         [Export]
         public int Id { get; set; }
 
@@ -44,18 +44,18 @@ namespace UPS.Core.Models
 
 
         public int CompareTo(object obj)
-        { 
-            if (obj == null || !(obj is Employee)) 
+        {
+            if (obj == null || !(obj is Employee))
                 throw new ArgumentException("Can not compare to null or non-Employee object");
 
             Employee that = (obj as Employee);
 
             // comparing two employee objects based on UpdateTime property in order handle data concurrency            
-            if (this.UpdateTime == that.UpdateTime) 
+            if (this.UpdateTime == that.UpdateTime)
                 return 0;
-            else if (this.UpdateTime < that.UpdateTime) 
+            else if (this.UpdateTime < that.UpdateTime)
                 return -1;
-            else 
+            else
                 return 1;
         }
     }

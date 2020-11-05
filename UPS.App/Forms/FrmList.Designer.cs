@@ -48,13 +48,16 @@
             this.btnSearch = new System.Windows.Forms.ToolStripButton();
             this.btnClearFilter = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnExport = new System.Windows.Forms.ToolStripButton();
+            this.toolStripExportDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.csvExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.lblFilterStatus = new System.Windows.Forms.ToolStripLabel();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblRecords = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilterText = new System.Windows.Forms.ToolStripStatusLabel();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gvList)).BeginInit();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -68,8 +71,8 @@
             this.gvList.AllowUserToResizeRows = false;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             this.gvList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.gvList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.gvList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gvList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gvList.CausesValidation = false;
@@ -84,11 +87,12 @@
             this.gvList.ShowCellErrors = false;
             this.gvList.ShowEditingIcon = false;
             this.gvList.ShowRowErrors = false;
-            this.gvList.Size = new System.Drawing.Size(760, 466);
+            this.gvList.Size = new System.Drawing.Size(988, 470);
             this.gvList.TabIndex = 0;
             // 
             // toolStrip
             // 
+            this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnFirst,
@@ -108,11 +112,12 @@
             this.btnSearch,
             this.btnClearFilter,
             this.toolStripSeparator4,
-            this.btnExport,
+            this.toolStripExportDropDownButton,
+            this.toolStripSeparator5,
             this.lblFilterStatus});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(784, 27);
+            this.toolStrip.Size = new System.Drawing.Size(583, 27);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -259,15 +264,30 @@
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 27);
             // 
-            // btnExport
+            // toolStripExportDropDownButton
             // 
-            this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnExport.Image = global::UPS.App.Properties.Resources.csv_4195;
-            this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(24, 24);
-            this.btnExport.ToolTipText = "Export page to csv";
-            this.btnExport.Click += new System.EventHandler(this.BtnExport_Click);
+            this.toolStripExportDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripExportDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.csvExportToolStripMenuItem});
+            this.toolStripExportDropDownButton.Image = global::UPS.App.Properties.Resources._32x32;
+            this.toolStripExportDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripExportDropDownButton.Name = "toolStripExportDropDownButton";
+            this.toolStripExportDropDownButton.Size = new System.Drawing.Size(33, 24);
+            this.toolStripExportDropDownButton.Text = "toolStripDropDownButton1";
+            this.toolStripExportDropDownButton.ToolTipText = "Export";
+            // 
+            // csvExportToolStripMenuItem
+            // 
+            this.csvExportToolStripMenuItem.Image = global::UPS.App.Properties.Resources.csv_4195;
+            this.csvExportToolStripMenuItem.Name = "csvExportToolStripMenuItem";
+            this.csvExportToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
+            this.csvExportToolStripMenuItem.Text = "CSV";
+            this.csvExportToolStripMenuItem.Click += new System.EventHandler(this.csvExportToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
             // 
             // lblFilterStatus
             // 
@@ -277,20 +297,6 @@
             this.lblFilterStatus.Size = new System.Drawing.Size(160, 24);
             this.lblFilterStatus.Text = "Warning: this result is filtered";
             this.lblFilterStatus.Visible = false;
-            // 
-            // statusStrip
-            // 
-            this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatus,
-            this.lblRecords,
-            this.lblFilterText});
-            this.statusStrip.Location = new System.Drawing.Point(0, 496);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 12, 0);
-            this.statusStrip.Size = new System.Drawing.Size(784, 22);
-            this.statusStrip.TabIndex = 2;
-            this.statusStrip.Text = "statusStrip1";
             // 
             // lblStatus
             // 
@@ -310,11 +316,39 @@
             this.lblFilterText.Size = new System.Drawing.Size(42, 17);
             this.lblFilterText.Text = " | Filter";
             // 
+            // statusStrip
+            // 
+            this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblStatus,
+            this.lblRecords,
+            this.lblFilterText});
+            this.statusStrip.Location = new System.Drawing.Point(0, 500);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 12, 0);
+            this.statusStrip.Size = new System.Drawing.Size(1012, 22);
+            this.statusStrip.TabIndex = 2;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Image = global::UPS.App.Properties.Resources.bindingNavigatorDeleteItem_Image;
+            this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCancel.Location = new System.Drawing.Point(808, 2);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(192, 25);
+            this.btnCancel.TabIndex = 4;
+            this.btnCancel.Text = "Click here to cancel the operation";
+            this.btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // FrmList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 518);
+            this.ClientSize = new System.Drawing.Size(1012, 522);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.gvList);
@@ -352,15 +386,18 @@
         private System.Windows.Forms.ToolStripButton btnSearch;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton btnRefresh;
-        private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStripButton btnClearFilter;
         private System.Windows.Forms.ToolStripLabel lblFilterStatus;
-        private System.Windows.Forms.ToolStripStatusLabel lblFilterText;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.ToolStripButton btnExport;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblRecords;
+        private System.Windows.Forms.ToolStripStatusLabel lblFilterText;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripExportDropDownButton;
+        private System.Windows.Forms.ToolStripMenuItem csvExportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

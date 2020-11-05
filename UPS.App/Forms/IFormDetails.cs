@@ -1,6 +1,4 @@
-﻿using UPS.Core.Models;
-
-namespace UPS.App
+﻿namespace UPS.App
 {
     public interface IFormDetails<T>
     {

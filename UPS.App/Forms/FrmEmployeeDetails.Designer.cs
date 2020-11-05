@@ -3,7 +3,7 @@ using UPS.App;
 
 namespace UPS.App
 {
-    partial class FrmEmployee
+    partial class FrmEmployeeDetails
     {
         /// <summary>
         /// Required designer variable.
@@ -51,6 +51,7 @@ namespace UPS.App
             // 
             this.txtId.Location = new System.Drawing.Point(61, 19);
             this.txtId.Name = "txtId";
+            this.txtId.ReadOnly = true;
             this.txtId.Size = new System.Drawing.Size(128, 20);
             this.txtId.TabIndex = 0;
             // 
@@ -173,7 +174,7 @@ namespace UPS.App
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
-            // FrmEmployee
+            // FrmEmployeeDetails
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -186,7 +187,7 @@ namespace UPS.App
             this.Controls.Add(this.btnCancel);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmEmployee";
+            this.Name = "FrmEmployeeDetails";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Employee";

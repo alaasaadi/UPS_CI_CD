@@ -19,12 +19,12 @@
     }
     public enum Gender
     {
-        Male, 
+        Male,
         Female
     }
     public enum Status
     {
-        Active, 
+        Active,
         Inactive
     }
 }

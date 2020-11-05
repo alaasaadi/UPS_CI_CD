@@ -2,7 +2,7 @@
 
 namespace UPS.Core.Utilities.Pagination
 {
-    public class Pager: IPager
+    public class Pager : IPager
     {
         [JsonPropertyName("total")]
         public int TotalRecords { get; set; }

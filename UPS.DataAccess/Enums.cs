@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UPS.DataAccess
+﻿namespace UPS.DataAccess
 {
     /// <summary>
     /// 200: OK.Everything worked as expected.

@@ -51,11 +51,11 @@
   <ItemGroup>
     <Compile Include="Enums.cs" />
     <Compile Include="Factory.cs" />
-    <Compile Include="Forms\FrmEmployee.cs">
+    <Compile Include="Forms\FrmEmployeeDetails.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmEmployee.Designer.cs">
-      <DependentUpon>FrmEmployee.cs</DependentUpon>
+    <Compile Include="Forms\FrmEmployeeDetails.Designer.cs">
+      <DependentUpon>FrmEmployeeDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\IFormDetails.cs" />
     <Compile Include="Forms\FrmList.cs">
@@ -66,8 +66,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\FrmEmployee.resx">
-      <DependentUpon>FrmEmployee.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmEmployeeDetails.resx">
+      <DependentUpon>FrmEmployeeDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmList.resx">
+      <DependentUpon>FrmList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -111,6 +114,7 @@
     <None Include="Resources\filter_outline_icon_139566.png" />
     <None Include="Resources\csv_4195.png" />
     <None Include="Resources\emblemsynchronizing_93485.png" />
+    <None Include="Resources\32x32.png" />
     <Content Include="ups_logo.ico" />
   </ItemGroup>
   <ItemGroup />

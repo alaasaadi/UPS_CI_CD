@@ -7,9 +7,10 @@ using UPS.Core.Models;
 
 namespace UPS.App
 {
-    public partial class FrmEmployee : Form, IFormDetails<Employee>
+    public partial class FrmEmployeeDetails : Form, IFormDetails<Employee>
     {
-        public Employee MyModel {
+        public Employee MyModel
+        {
             get
             {
                 Employee employee = new Employee();
@@ -24,7 +25,8 @@ namespace UPS.App
                 return employee;
             }
 
-            set {
+            set
+            {
                 txtId.Text = value.Id.ToString();
                 txtName.Text = value.Name;
                 txtEmail.Text = value.Email;
@@ -33,7 +35,7 @@ namespace UPS.App
             }
         }
 
-        public FrmEmployee()
+        public FrmEmployeeDetails()
         {
             InitializeComponent();
             cmbGender.Items.AddRange(Enum.GetValues(typeof(Gender)).Cast<object>().ToArray());
